@@ -17,5 +17,16 @@ import java.util.Objects;
 @RequiredArgsConstructor
 class JsonParser {
 
+    private final ApiCaller apiCaller;
+
+    List<Pokemon> parsePokemonList(){
+        Collection<String> urls = apiCaller.resourceUrlsFromApi();
+
+
+
+        return Collections.emptyList();
+
+    }
+
 
 }
