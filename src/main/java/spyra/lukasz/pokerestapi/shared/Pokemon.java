@@ -48,7 +48,7 @@ public class Pokemon {
     private List<PokeAbility> abilities;
 
     @ManyToMany
-    private List<PokeStats> stats;
+    private List<PokeStat> stats;
 
     @ManyToMany
     private List<PokeType> types;
