@@ -44,22 +44,13 @@ public class Pokemon {
         imageUrl = sprites.getIcon();
     }
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany
     private Set<PokeAbility> abilities;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany
     private Set<PokeStat> stats;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany
     private Set<PokeType> types;
 
 }
