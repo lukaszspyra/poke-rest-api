@@ -3,5 +3,10 @@ package spyra.lukasz.pokerestapi.consume;
 import org.springframework.data.jpa.repository.JpaRepository;
 import spyra.lukasz.pokerestapi.shared.PokeType;
 
-public interface PokeTypeRepository extends JpaRepository<PokeType, Long> {
+import java.util.Optional;
+
+interface PokeTypeRepository extends JpaRepository<PokeType, Long> {
+
+    Optional<PokeType> findFirstByName(String name);
+
 }
