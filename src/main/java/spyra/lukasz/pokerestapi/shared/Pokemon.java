@@ -22,7 +22,7 @@ public class Pokemon {
     private static final Logger log = LoggerFactory.getLogger(Pokemon.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
 
@@ -44,13 +44,22 @@ public class Pokemon {
         imageUrl = sprites.getIcon();
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     private List<PokeAbility> abilities;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     private List<PokeStat> stats;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     private List<PokeType> types;
 
 }
