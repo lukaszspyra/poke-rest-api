@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -48,19 +48,19 @@ public class Pokemon {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    private List<PokeAbility> abilities;
+    private Set<PokeAbility> abilities;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    private List<PokeStat> stats;
+    private Set<PokeStat> stats;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    private List<PokeType> types;
+    private Set<PokeType> types;
 
 }
 
