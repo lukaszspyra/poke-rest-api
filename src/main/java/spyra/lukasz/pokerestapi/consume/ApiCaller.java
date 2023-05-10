@@ -15,7 +15,7 @@ import java.util.Objects;
  * Fetches data from external properties endpoint into single resources url list
  */
 @Component
-@PropertySource("classpath:/settings.properties")
+@PropertySource("classpath:settings.properties")
 class ApiCaller {
 
     private static final Logger log = LoggerFactory.getLogger(ApiCaller.class);
