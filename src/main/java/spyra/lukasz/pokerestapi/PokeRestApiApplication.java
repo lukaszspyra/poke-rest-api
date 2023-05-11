@@ -2,11 +2,13 @@ package spyra.lukasz.pokerestapi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestOperations;
+import spyra.lukasz.pokerestapi.consume.DbPersistService;
 
 @SpringBootApplication
 public class PokeRestApiApplication {
@@ -23,6 +25,10 @@ public class PokeRestApiApplication {
 		return builder.build();
 	}
 
-
+    @Bean
+    CommandLineRunner initDatabase(DbPersistService init) {
+        log.debug("Start db init from API call");
+        return args -> init.initDbFromApi();
+    }
 
 }
