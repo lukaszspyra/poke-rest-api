@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
 /**
@@ -22,13 +24,19 @@ class PokeController {
 
     @GetMapping("/pokemon/{id}")
     EntityModel<Pokemon> one(@PathVariable Long id) {
-        log.debug("Finding one poke by id");
-        Pokemon poke = service.findById(id).get();
+        log.debug("Finding one poke by id or throwing 404");
+        Pokemon poke = service.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
+        log.debug("Poke found by id, start mapping to EntityModel");
         return assembler.toModel(poke);
     }
 
+    /**
+     * Find all entities as entry endpoint
+     *
+     * @return collection of all entities projections transformed to CollectionModel
+     */
     @GetMapping("/pokemon")
-    CollectionModel<EntityModel<ProjectIdAndName>> allProjected() {
+    CollectionModel<EntityModel<ProjectedIdAndName>> allProjected() {
         log.debug("Finding all pokemons projected by name and id");
         return assembler.toCollectionModel(service.findAllProjectedBy());
     }
@@ -40,6 +48,3 @@ class PokeController {
     }
 
 }
-
-
-

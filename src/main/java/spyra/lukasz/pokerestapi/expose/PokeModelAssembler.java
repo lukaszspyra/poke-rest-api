@@ -29,10 +29,16 @@ class PokeModelAssembler implements RepresentationModelAssembler<Pokemon, Entity
                 linkTo(methodOn(PokeController.class).allProjected()).withRel("pokemons"));
     }
 
+    /**
+     * This does not override interface method - it is NOT for actual entity, only for projected entity/DTO called {@link ProjectedIdAndName}
+     *
+     * @param entities
+     * @return
+     */
     @NonNull
-    public CollectionModel<EntityModel<ProjectIdAndName>> toCollectionModel(Collection<ProjectIdAndName> entities) {
+    public CollectionModel<EntityModel<ProjectedIdAndName>> toCollectionModel(Collection<ProjectedIdAndName> entities) {
         log.debug("Assembling EntityModel of pokemon collection");
-        List<EntityModel<ProjectIdAndName>> resourcesList = entities
+        List<EntityModel<ProjectedIdAndName>> resourcesList = entities
                 .stream()
                 .map(projectedPoke -> EntityModel.of(projectedPoke,
                         linkTo(methodOn(PokeController.class).one(projectedPoke.getId())).withSelfRel(),

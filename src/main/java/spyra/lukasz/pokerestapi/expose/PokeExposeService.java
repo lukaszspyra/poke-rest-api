@@ -21,7 +21,7 @@ class PokeExposeService {
         return repository.findById(id);
     }
 
-    Collection<ProjectIdAndName> findAllProjectedBy() {
+    Collection<ProjectedIdAndName> findAllProjectedBy() {
         log.debug("Searching database for all entities projected by Id and Name");
         return repository.findAllProjectedBy();
     }
