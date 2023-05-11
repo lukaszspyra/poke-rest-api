@@ -9,7 +9,9 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.Set;
 
 @Entity
@@ -22,12 +24,7 @@ public class Pokemon {
     private static final Logger log = LoggerFactory.getLogger(Pokemon.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
-
-    @JsonProperty("id")
-    private long apiId;
 
     private String name;
 
