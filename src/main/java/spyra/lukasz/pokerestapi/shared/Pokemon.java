@@ -9,8 +9,10 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,12 +24,7 @@ public class Pokemon {
     private static final Logger log = LoggerFactory.getLogger(Pokemon.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     private Long id;
-
-    @JsonProperty("id")
-    private long apiId;
 
     private String name;
 
@@ -45,13 +42,13 @@ public class Pokemon {
     }
 
     @ManyToMany
-    private List<PokeAbility> abilities;
+    private Set<PokeAbility> abilities;
 
     @ManyToMany
-    private List<PokeStat> stats;
+    private Set<PokeStat> stats;
 
     @ManyToMany
-    private List<PokeType> types;
+    private Set<PokeType> types;
 
 }
 

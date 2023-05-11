@@ -35,7 +35,7 @@ class PokemonJsonParseTest {
 
         //then
         assertAll("single poke",
-                () -> assertEquals(apiId, responseBody.getApiId(), "Shall return proper API ID, but it has not"),
+                () -> assertEquals(apiId, responseBody.getId(), "Shall return proper ID, but it has not"),
                 () -> assertEquals(pokeName, responseBody.getName(), "Shall return proper name, but it has not"),
                 () -> assertEquals(height, responseBody.getHeight(), "Shall return proper height, but it has not"),
                 () -> assertEquals(weight, responseBody.getWeight(), "Shall return proper weight, but it has not"),
