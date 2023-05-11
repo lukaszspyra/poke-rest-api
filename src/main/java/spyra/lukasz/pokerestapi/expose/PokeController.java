@@ -3,21 +3,26 @@ package spyra.lukasz.pokerestapi.expose;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequiredArgsConstructor
-class SinglePokeController {
+class PokeController {
 
-    private static final Logger log = LoggerFactory.getLogger(SinglePokeController.class);
+    private static final Logger log = LoggerFactory.getLogger(PokeController.class);
     private final PokeExposeService service;
 
     @GetMapping("/pokemon/{id}")
-    ResponseEntity<Pokemon> one(@PathVariable Long id) {
-
-        return ResponseEntity.noContent().build();
+    EntityModel<Pokemon> one(@PathVariable Long id) {
+        Pokemon poke = service.findById(id).get();
+        return EntityModel.of(poke,
+                linkTo(methodOn(PokeController.class).one(id)).withSelfRel());
     }
 
     @PostMapping("/pokemon")
