@@ -9,6 +9,10 @@ import spyra.lukasz.pokerestapi.shared.PokeAbility;
 import spyra.lukasz.pokerestapi.shared.PokeStat;
 import spyra.lukasz.pokerestapi.shared.PokeType;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.repository.PokeAbilityRepository;
+import spyra.lukasz.pokerestapi.shared.repository.PokeRepository;
+import spyra.lukasz.pokerestapi.shared.repository.PokeStatRepository;
+import spyra.lukasz.pokerestapi.shared.repository.PokeTypeRepository;
 
 import java.util.Collection;
 import java.util.Set;
