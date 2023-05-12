@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 
 /**
- * Accepts new json resources
+ * Accepts validated new json pokemon resources
  */
 @RestController
 @RequiredArgsConstructor
@@ -20,13 +20,13 @@ class PokeCreateController {
 
     private static final Logger log = LoggerFactory.getLogger(PokeCreateController.class);
     private final PokeCreateService service;
+    private final NewPokeIdGenerator idGenerator;
 
     @PostMapping("/pokemon")
     Pokemon newPoke(@Valid @RequestBody Pokemon newPoke) {
         log.debug("Received json for new pokemon resource");
-        Pokemon draft = newPoke;
-
-        return service.save(draft);
+        newPoke.setId(idGenerator.generate());
+        return service.save(newPoke);
     }
 
 }
