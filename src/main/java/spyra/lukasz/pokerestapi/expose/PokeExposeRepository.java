@@ -1,5 +1,6 @@
 package spyra.lukasz.pokerestapi.expose;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,6 +35,7 @@ interface PokeExposeRepository extends JpaRepository<Pokemon, Long> {
 @EqualsAndHashCode(callSuper = true)
 @Relation(collectionRelation = "pokemons")
 class ProjectedIdAndName extends RepresentationModel<ProjectedIdAndName> {
+    @JsonIgnore
     private Long id;
     private String name;
 }
