@@ -1,18 +1,16 @@
 package spyra.lukasz.pokerestapi.shared;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -25,10 +23,10 @@ public class Pokemon {
     private static final Logger log = LoggerFactory.getLogger(Pokemon.class);
 
     @Id
-    @NonNull
+    @NotNull
     private Long id;
 
-    @NonNull
+    @NotBlank
     private String name;
 
     private int height;
@@ -45,12 +43,15 @@ public class Pokemon {
     }
 
     @ManyToMany
+    @NotNull
     private Set<PokeAbility> abilities;
 
     @ManyToMany
+    @NotNull
     private Set<PokeStat> stats;
 
     @ManyToMany
+    @NotNull
     private Set<PokeType> types;
 
 }
