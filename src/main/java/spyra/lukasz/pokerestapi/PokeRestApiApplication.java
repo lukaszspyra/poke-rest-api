@@ -25,10 +25,4 @@ public class PokeRestApiApplication {
 		return builder.build();
 	}
 
-    @Bean
-    CommandLineRunner initDatabase(DbPersistService init) {
-        log.debug("Start db init from API call");
-        return args -> init.initDbFromApi();
-    }
-
 }
