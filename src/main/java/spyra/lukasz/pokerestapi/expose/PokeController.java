@@ -6,8 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
@@ -39,12 +40,6 @@ class PokeController {
     CollectionModel<EntityModel<ProjectedIdAndName>> allProjected() {
         log.debug("Finding all pokemons projected by name and id");
         return assembler.toCollectionModel(service.findAllProjectedBy());
-    }
-
-    @PostMapping("/pokemon")
-    ResponseEntity<Pokemon> newPoke(@RequestBody Pokemon newPoke) {
-
-        return ResponseEntity.internalServerError().build();
     }
 
 }
