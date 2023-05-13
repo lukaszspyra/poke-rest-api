@@ -16,7 +16,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-class PokeModelAssembler implements RepresentationModelAssembler<Pokemon, EntityModel<Pokemon>> {
+public class PokeModelAssembler implements RepresentationModelAssembler<Pokemon, EntityModel<Pokemon>> {
 
     private static final Logger log = LoggerFactory.getLogger(PokeModelAssembler.class);
 
