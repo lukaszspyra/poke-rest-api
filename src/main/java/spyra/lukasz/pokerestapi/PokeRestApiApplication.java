@@ -25,4 +25,9 @@ public class PokeRestApiApplication {
 		return builder.build();
 	}
 
+	@Bean
+	public Long customPokeBeginIndex(){
+		return 100000L;
+	}
+
 }
