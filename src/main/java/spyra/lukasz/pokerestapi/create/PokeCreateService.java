@@ -28,25 +28,24 @@ class PokeCreateService {
     private final PokeStatRepository statRepository;
     private final PokeTypeRepository typeRepository;
 
-
-    @Transactional
-    public Pokemon save(Pokemon poke) {
-        log.debug("Saving new poke in database");
-
-
-
-        return saveOne(poke);
-    }
-
+    /**
+     * Saves pokemon with setting relations from db, mitigating detached state of child dependecies (Stats/Abilities/Types)
+     *
+     * @param poke for persisting
+     * @return persisted poke with id set
+     */
     @Transactional
     public Pokemon saveOne(Pokemon poke) {
+        log.debug("Start setting up all poke required fields in db");
         poke.setAbilities(persistPokeAbilities(poke.getAbilities()));
         poke.setTypes(persistPokeTypes(poke.getTypes()));
         poke.setStats(persistPokeStats(poke.getStats()));
+        log.debug("Poke all fields set, sent for persisting");
         return repository.save(poke);
     }
 
     private Set<PokeStat> persistPokeStats(Collection<PokeStat> stats) {
+        log.debug("Getting persisted poke stats");
         return stats
                 .stream()
                 .map(stat -> statRepository.findFirstByNameAndValue(stat.getName(), stat.getValue()).orElseGet(() -> statRepository.save(stat)))
@@ -54,6 +53,7 @@ class PokeCreateService {
     }
 
     private Set<PokeType> persistPokeTypes(Collection<PokeType> types) {
+        log.debug("Getting persisted poke types");
         return types
                 .stream()
                 .map(type -> typeRepository.findFirstByName(type.getName()).orElseGet(() -> typeRepository.save(type)))
@@ -61,6 +61,7 @@ class PokeCreateService {
     }
 
     private Set<PokeAbility> persistPokeAbilities(Collection<PokeAbility> abilities) {
+        log.debug("Getting persisted poke abilities");
         return abilities
                 .stream()
                 .map(ability ->

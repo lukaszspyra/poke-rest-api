@@ -26,7 +26,7 @@ class PokeCreateController {
     Pokemon newPoke(@Valid @RequestBody Pokemon newPoke) {
         log.debug("Received json for new pokemon resource");
         newPoke.setId(idGenerator.generate());
-        return service.save(newPoke);
+        return service.saveOne(newPoke);
     }
 
 }
