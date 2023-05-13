@@ -4,7 +4,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import spyra.lukasz.pokerestapi.shared.repository.PokeRepository;
 
 import java.util.stream.Stream;
 
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class NewPokeIdGeneratorTest {
 
-    private final PokeRepository mockRepository = Mockito.mock(PokeRepository.class);
+    private final PokeCreateRepository mockRepository = Mockito.mock(PokeCreateRepository.class);
 
     @ParameterizedTest
     @MethodSource("maxIdFromDbWithExpectedGeneratedId")
