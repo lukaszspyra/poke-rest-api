@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import spyra.lukasz.pokerestapi.shared.Pokemon;
 
 
 /**
@@ -20,7 +21,7 @@ class PokeDeleteController {
     private final PokeDeleteService service;
 
     @DeleteMapping("/pokemon/{id}")
-    ResponseEntity<?> delete(@PathVariable Long id) {
+    ResponseEntity<Pokemon> delete(@PathVariable Long id) {
         log.debug("Deletes pokemon by setting field isDeleted=true");
         if (service.deleteOne(id) == 0) {
             log.debug("Pokemon's id " + id + " not found - delete cancelled");

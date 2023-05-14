@@ -21,9 +21,9 @@ class NewPokeIdGeneratorTest {
     void shallGenerateProperIdForGivenDBCountAndCustomIndexStartingFrom100Exclusively(Long maxIdValueFromDb, Long expectedId) {
         //given
         NewPokeIdGenerator generator = new NewPokeIdGenerator(100L, mockRepository);
-        Mockito.when(mockRepository.getMaxId()).thenReturn(maxIdValueFromDb);
 
         //when
+        Mockito.when(mockRepository.getMaxId()).thenReturn(maxIdValueFromDb);
         Long generatedId = generator.generate();
 
         //then
