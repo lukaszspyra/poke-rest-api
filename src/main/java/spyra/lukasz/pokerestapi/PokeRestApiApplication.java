@@ -14,18 +14,22 @@ public class PokeRestApiApplication {
     private static final Logger log = LoggerFactory.getLogger(PokeRestApiApplication.class);
 
     public static void main(String[] args) {
+        log.debug("Starting application");
         SpringApplication.run(PokeRestApiApplication.class, args);
     }
 
 
     @Bean
     public RestOperations restTemplate(RestTemplateBuilder builder) {
+        log.debug("Building rest template bean");
         return builder.build();
     }
 
     @Bean
     public Long customPokeBeginIndex() {
-        return 100000L;
+        long beginIndex = 100000L;
+        log.debug("Declaring begin index for custom pokemons as: " + beginIndex);
+        return beginIndex;
     }
 
 }
