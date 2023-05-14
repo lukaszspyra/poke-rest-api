@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.PokemonListJson;
 
 import java.util.List;
 import java.util.Objects;
