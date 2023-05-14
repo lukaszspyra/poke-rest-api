@@ -18,10 +18,10 @@ import java.util.Optional;
 interface PokeExposeRepository extends JpaRepository<Pokemon, Long> {
 
     @NonNull
-    @Query("select p from Pokemon p join fetch p.abilities join fetch p.stats join fetch p.types where p.id = :id")
-    Optional<Pokemon> findById(@NonNull @Param("id") Long id);
+    @Query("select p from Pokemon p join fetch p.abilities join fetch p.stats join fetch p.types where p.id = :id and p.isDeleted = false")
+    Optional<Pokemon> findByIdNotDeleted(@NonNull @Param("id") Long id);
 
-    List<ProjectedIdAndName> findAllProjectedBy();
+    List<ProjectedIdAndName> findAllProjectedByAndIsDeletedFalse();
 }
 
 /**

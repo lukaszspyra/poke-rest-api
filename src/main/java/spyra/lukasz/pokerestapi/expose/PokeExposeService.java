@@ -18,11 +18,11 @@ class PokeExposeService {
 
     Optional<Pokemon> findById(Long id) {
         log.debug("Searching database for entity with given id");
-        return repository.findById(id);
+        return repository.findByIdNotDeleted(id);
     }
 
     Collection<ProjectedIdAndName> findAllProjectedBy() {
         log.debug("Searching database for all entities projected by Id and Name");
-        return repository.findAllProjectedBy();
+        return repository.findAllProjectedByAndIsDeletedFalse();
     }
 }
