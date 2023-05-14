@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import spyra.lukasz.pokerestapi.PokeRestApiApplication;
-import spyra.lukasz.pokerestapi.shared.repository.PokeRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -13,7 +12,7 @@ class NewPokeIdGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(NewPokeIdGenerator.class);
     private final Long customPokeBeginIndex;
-    private final PokeRepository repository;
+    private final PokeCreateRepository repository;
 
     /**
      * Generates id for new custom pokemons.

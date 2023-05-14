@@ -67,6 +67,9 @@ public class Pokemon {
     @Valid
     private Set<PokeType> types;
 
+    @JsonIgnore
+    private boolean isDeleted;
+
 }
 
 @Getter
