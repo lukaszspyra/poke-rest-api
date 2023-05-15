@@ -24,7 +24,7 @@ class ApiCaller {
     private final String apiUrl;
     private final RestOperations restTemplate;
 
-    public ApiCaller(@Value("${api.url}") String apiUrl, RestOperations restTemplate) {
+    public ApiCaller(@Value("${api.entry.url}") String apiUrl, RestOperations restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
     }
