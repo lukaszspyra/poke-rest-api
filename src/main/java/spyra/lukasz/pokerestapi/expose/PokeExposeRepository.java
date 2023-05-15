@@ -22,6 +22,11 @@ interface PokeExposeRepository extends JpaRepository<Pokemon, Long> {
     Optional<Pokemon> findByIdNotDeleted(@NonNull @Param("id") Long id);
 
     List<ProjectedIdAndName> findAllProjectedByAndIsDeletedFalse();
+
+    @Query("select p.id from Pokemon p where p.isDeleted = true")
+    List<Long> findDeletedIdList();
+
+    List<ProjectedIdAndName> findAllProjectedByIdIsAfterAndIsDeletedFalse(Long id);
 }
 
 /**
