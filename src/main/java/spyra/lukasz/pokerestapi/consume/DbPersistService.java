@@ -40,11 +40,11 @@ public class DbPersistService {
     }
 
     @Transactional
-    public void saveOne(Pokemon poke) {
+    public Pokemon saveOne(Pokemon poke) {
         poke.setAbilities(persistPokeAbilities(poke.getAbilities()));
         poke.setTypes(persistPokeTypes(poke.getTypes()));
         poke.setStats(persistPokeStats(poke.getStats()));
-        pokeRepository.save(poke);
+        return pokeRepository.save(poke);
     }
 
     private Set<PokeStat> persistPokeStats(Collection<PokeStat> stats) {
