@@ -47,7 +47,8 @@ record PokemonListJson(int count, List<PokemonOverview> results) {
      * @throws ParseException if not successful parsing (no parseable digit as the last character)
      */
     private long parse(NumberFormat intInstance, String url) throws ParseException {
-        return intInstance.parse(url.substring(url.length() - 1)).longValue();
+        String[] segments = url.split("/");
+        return intInstance.parse(segments[segments.length - 1]).longValue();
     }
 
     public PokemonListJson {
