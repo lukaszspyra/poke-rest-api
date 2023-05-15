@@ -26,7 +26,7 @@ class PokeController {
     @GetMapping("/pokemon/{id}")
     EntityModel<Pokemon> one(@PathVariable Long id) {
         log.debug("Finding one poke by id or throwing 404");
-        Pokemon poke = service.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
+        Pokemon poke = service.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "resource not found"));
         log.debug("Poke found by id, start mapping to EntityModel");
         return assembler.toModel(poke);
     }
