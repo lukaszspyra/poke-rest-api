@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestOperations;
+import spyra.lukasz.pokerestapi.expose.exceptions.RestTemplateResponseErrorHandler;
 
 @SpringBootApplication
 public class PokeRestApiApplication {
@@ -21,8 +22,8 @@ public class PokeRestApiApplication {
 
     @Bean
     public RestOperations restTemplate(RestTemplateBuilder builder) {
-        log.debug("Building rest template bean");
-        return builder.build();
+        log.debug("Building rest template bean with custom error handler");
+        return builder.errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
     @Bean
