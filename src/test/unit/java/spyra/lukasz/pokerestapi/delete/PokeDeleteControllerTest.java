@@ -15,13 +15,13 @@ class PokeDeleteControllerTest {
 
     @ParameterizedTest
     @MethodSource("deleteParameters")
-    void shallReturnProperResponseCodeOnDelete(Long idToDelete, int deletedCount, ResponseEntity<Pokemon> response) {
+    void shallReturnProperResponseCodeOnDelete(Long idToDelete, boolean deleted, ResponseEntity<Pokemon> response) {
         //given
         PokeDeleteService mockService = Mockito.mock(PokeDeleteService.class);
         PokeDeleteController controller = new PokeDeleteController(mockService);
 
         //when
-        Mockito.when(mockService.deleteOne(idToDelete)).thenReturn(deletedCount);
+        Mockito.when(mockService.deleteOne(idToDelete)).thenReturn(deleted);
         ResponseEntity<Pokemon> delete = controller.delete(idToDelete);
 
         //then
@@ -31,9 +31,9 @@ class PokeDeleteControllerTest {
     private static Stream<Arguments> deleteParameters() {
 
         return Stream.of(
-                Arguments.of(7L, 1, ResponseEntity.noContent().build()),
-                Arguments.of(7L, 0, ResponseEntity.notFound().build()),
-                Arguments.of(1000001L, 10, ResponseEntity.noContent().build())
+                Arguments.of(7L, true, ResponseEntity.noContent().build()),
+                Arguments.of(7L, false, ResponseEntity.notFound().build()),
+                Arguments.of(1000001L, true, ResponseEntity.noContent().build())
         );
     }
 }

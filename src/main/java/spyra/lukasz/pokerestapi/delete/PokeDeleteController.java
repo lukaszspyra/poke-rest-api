@@ -23,12 +23,12 @@ class PokeDeleteController {
     @DeleteMapping("/pokemon/{id}")
     ResponseEntity<Pokemon> delete(@PathVariable Long id) {
         log.debug("Deletes pokemon by setting field isDeleted=true");
-        if (service.deleteOne(id) == 0) {
-            log.debug("Pokemon's id " + id + " not found - delete cancelled");
-            return ResponseEntity.notFound().build();
+        if (service.deleteOne(id)) {
+            log.debug("Pokemon's id " + id + " found - delete successful");
+            return ResponseEntity.noContent().build();
         }
-        log.debug("Pokemon's id " + id + " found - delete successful");
-        return ResponseEntity.noContent().build();
+        log.debug("Pokemon's id " + id + " not found - delete cancelled");
+        return ResponseEntity.notFound().build();
     }
 
 }

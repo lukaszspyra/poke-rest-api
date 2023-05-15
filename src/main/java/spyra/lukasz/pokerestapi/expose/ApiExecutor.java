@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 @Component
 @RequiredArgsConstructor
 @PropertySource("classpath:settings.properties")
-class ApiExecutor {
+public class ApiExecutor {
     private static final Logger log = LoggerFactory.getLogger(ApiExecutor.class);
     private final RestOperations restTemplate;
     private final ApiLinkGenerator linkGenerator;
@@ -26,7 +26,14 @@ class ApiExecutor {
         return Objects.requireNonNull(restTemplate.getForObject(linkGenerator.getApiEntryUrl(), PokemonListJson.class)).projectionFromJson();
     }
 
-    Pokemon pokemonInstanceFromApi(Long id) {
+    /**
+     * Finds pokemon in external api
+     * @implNote Relies on {@link org.springframework.web.client.RestTemplate#getForObject(String, Class, Object...)} exception mechanism when not found
+     *
+     * @param id to be searched
+     * @return instance from api
+     */
+    public Pokemon pokemonInstanceFromApi(Long id) {
         log.debug("Api call for single resource details url");
         return restTemplate.getForObject(linkGenerator.generateSingleResourceLink(id), Pokemon.class);
     }
