@@ -41,7 +41,7 @@ public class RestTemplateResponseErrorHandler
         if (statusCode.series() == HttpStatus.Series.CLIENT_ERROR) {
             if (statusCode == HttpStatus.NOT_FOUND) {
                 log.debug("Rethrowing ResponseStatusException with status NOT_FOUND");
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "resource not found");
             }
         }
     }
