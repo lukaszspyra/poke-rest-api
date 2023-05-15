@@ -27,17 +27,6 @@ public class DbPersistService {
     private final PokeAbilityRepository abilityRepository;
     private final PokeStatRepository statRepository;
     private final PokeTypeRepository typeRepository;
-    private final JsonParser jsonParser;
-
-
-    public void initDbFromApi() {
-        saveAll(jsonParser.parsePokemonList());
-    }
-
-    void saveAll(Collection<Pokemon> pokemons) {
-        log.debug("Persisting collection of Pokemon instances");
-        pokemons.forEach(this::saveOne);
-    }
 
     @Transactional
     public Pokemon saveOne(Pokemon poke) {

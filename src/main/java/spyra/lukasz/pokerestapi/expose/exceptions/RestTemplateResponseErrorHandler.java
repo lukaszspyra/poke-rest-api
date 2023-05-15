@@ -13,6 +13,9 @@ import java.io.IOException;
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
 
+/**
+ * Handles error codes received during parsing jsons from {@link org.springframework.web.client.RestTemplate#getForObject(String, Class, Object...)}
+ */
 @Component
 public class RestTemplateResponseErrorHandler
         implements ResponseErrorHandler {
@@ -26,6 +29,11 @@ public class RestTemplateResponseErrorHandler
                 || httpResponse.getStatusCode().series() == SERVER_ERROR);
     }
 
+    /**
+     * In case of client error with status code {@link HttpStatus#NOT_FOUND} forwards it to the rest response
+     * @param httpResponse the response with the error
+     * @throws IOException
+     */
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
         HttpStatus statusCode = httpResponse.getStatusCode();

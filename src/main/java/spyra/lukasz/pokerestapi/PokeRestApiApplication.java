@@ -19,13 +19,22 @@ public class PokeRestApiApplication {
         SpringApplication.run(PokeRestApiApplication.class, args);
     }
 
-
+    /**
+     * Adds custom error handler to {@link org.springframework.web.client.RestTemplate}
+     * @see RestTemplateResponseErrorHandler
+     * @param builder
+     * @return
+     */
     @Bean
     public RestOperations restTemplate(RestTemplateBuilder builder) {
         log.debug("Building rest template bean with custom error handler");
         return builder.errorHandler(new RestTemplateResponseErrorHandler()).build();
     }
 
+    /**
+     * Defines starting index for custom pokemons created by users
+     * @return custom index
+     */
     @Bean
     public Long customPokeBeginIndex() {
         long beginIndex = 100000L;
