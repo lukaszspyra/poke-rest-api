@@ -18,6 +18,7 @@
         <version.lombok>1.18.24</version.lombok>
         <version.mockito>4.8.0</version.mockito>
         <version.cache>3.0.6</version.cache>
+        <start-class>spyra.lukasz.pokerestapi.PokeRestApiApplication</start-class>
     </properties>
     <dependencies>
         <dependency>
