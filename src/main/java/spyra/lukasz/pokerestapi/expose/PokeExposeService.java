@@ -46,19 +46,23 @@ class PokeExposeService {
     /**
      * Find all pokemon with status isDeleted==false, projecting it for view list of id and name
      *
-     * @return list of entitiy projections in form of {@link ProjectedIdAndName}
+     * @param limit  - pagination limit
+     * @param offset - start pagination position
+     * @return paginated list of resources projections
      */
-    List<ProjectedIdAndName> findAllProjectedBy() {
+    public List<ProjectedIdAndName> findAllProjectedBy(long limit, long offset) {
         log.debug("Searching database for all entities projected by Id and Name");
         Stream<ProjectedIdAndName> apiResources = executor.pokemonProjectionsFromApiEntryEndpoint();
         log.debug("Searching for app db custom entities with id above: " + customPokeBeginIndex);
-        Stream<ProjectedIdAndName> ownResources = repository.findAllProjectedByIdIsAfterAndIsDeletedFalse(customPokeBeginIndex).stream();
+        Stream<ProjectedIdAndName> ownResources = repository.findAllProjectedByIdIsAfter(customPokeBeginIndex).stream();
         log.debug("Concatenates app db results with poke api results");
         Stream<ProjectedIdAndName> concatResources = Stream.concat(apiResources, ownResources);
         List<Long> deletedIdList = repository.findDeletedIdList();
         log.debug("Removes entities with deleted status from summary list");
         return concatResources
                 .filter(parsed -> !deletedIdList.contains(parsed.getId()))
+                .skip(offset)
+                .limit(limit)
                 .toList();
     }
 }
