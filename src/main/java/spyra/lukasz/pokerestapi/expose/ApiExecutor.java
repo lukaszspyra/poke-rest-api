@@ -4,6 +4,7 @@ package spyra.lukasz.pokerestapi.expose;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
@@ -21,6 +22,7 @@ public class ApiExecutor {
     private final ApiLinkGenerator linkGenerator;
 
 
+    @Cacheable(cacheNames = "ApiPokemonList", key = "#root.methodName")
     public Stream<ProjectedIdAndName> pokemonProjectionsFromApiEntryEndpoint() {
         log.debug("Api call for resources in entry url");
         return Objects.requireNonNull(restTemplate.getForObject(linkGenerator.getApiEntryUrl(), PokemonListJson.class)).projectionFromJson();

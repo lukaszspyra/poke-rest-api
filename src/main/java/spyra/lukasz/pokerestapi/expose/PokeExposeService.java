@@ -3,6 +3,7 @@ package spyra.lukasz.pokerestapi.expose;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
@@ -32,7 +33,8 @@ class PokeExposeService {
      * @param id of pokemon
      * @return found/saved in app db entity
      */
-    Optional<Pokemon> findById(Long id) {
+    @Cacheable(cacheNames = "SinglePokemonById")
+    public Optional<Pokemon> findById(Long id) {
         log.debug("Searching database for entity with given id");
         Optional<Pokemon> pokeFromDb = repository.findAnyById(id);
         if (pokeFromDb.isPresent()) {
@@ -50,6 +52,8 @@ class PokeExposeService {
      * @param offset - start pagination position
      * @return paginated list of resources projections
      */
+
+    @Cacheable(cacheNames = "ExistingPokemons")
     public List<ProjectedIdAndName> findAllProjectedBy(long limit, long offset) {
         log.debug("Searching database for all entities projected by Id and Name");
         Stream<ProjectedIdAndName> apiResources = executor.pokemonProjectionsFromApiEntryEndpoint();

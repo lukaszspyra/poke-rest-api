@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,7 +25,8 @@ interface PokeExposeRepository extends JpaRepository<Pokemon, Long> {
     @Query("select p.id from Pokemon p where p.isDeleted = true")
     List<Long> findDeletedIdList();
 
-    List<ProjectedIdAndName> findAllProjectedByIdIsAfterAndIsDeletedFalse(Long id);
+    @Cacheable(cacheNames = "AppDbPokemonList")
+    List<ProjectedIdAndName> findAllProjectedByIdIsAfter(Long id);
 }
 
 /**
