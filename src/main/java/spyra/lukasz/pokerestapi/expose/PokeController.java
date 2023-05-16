@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
@@ -35,15 +35,14 @@ class PokeController {
     }
 
     /**
-     * Find all entities as entry endpoint
+     * Find all entities as entry endpoint, paginated (default page=0, size=20)
      *
      * @return collection of all entities projections transformed to CollectionModel
      */
     @GetMapping("/pokemon")
-    CollectionModel<EntityModel<ProjectedIdAndName>> allProjected(@RequestParam(name = "limit", defaultValue = "${default.page.offset}") long limit,
-                                                                  @RequestParam(name = "offset", defaultValue = "${default.page.limit}") long offset) {
-        log.debug("Finding all pokemon's name and id projections, paginated with params - limit:" + limit + "  offset: " + offset);
-        return assembler.toCollectionModel(service.findAllProjectedBy(limit, offset));
+    CollectionModel<EntityModel<ProjectedIdAndName>> allProjected(Pageable pageable) {
+        log.debug("Finding all pokemon's name and id projections, paginated with page size/number: " + pageable.getPageSize() + "/" + pageable.getPageNumber());
+        return assembler.toCollectionModel(service.findAllProjectedBy(pageable), pageable);
     }
 
 }

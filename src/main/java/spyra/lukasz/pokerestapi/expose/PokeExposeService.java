@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
@@ -15,7 +16,6 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:settings.properties")
 class PokeExposeService {
 
     private static final Logger log = LoggerFactory.getLogger(PokeExposeService.class);
@@ -46,15 +46,12 @@ class PokeExposeService {
     }
 
     /**
-     * Find all pokemon with status isDeleted==false, projecting it for view list of id and name
-     *
-     * @param limit  - pagination limit
-     * @param offset - start pagination position
-     * @return paginated list of resources projections
+     *Find all pokemon projections, non-deleted, both from external api and app db - combined and paginated
+     * @param pageable instance from client
+     * @return paginated list of resources
      */
-
     @Cacheable(cacheNames = "ExistingPokemons")
-    public List<ProjectedIdAndName> findAllProjectedBy(long limit, long offset) {
+    public List<ProjectedIdAndName> findAllProjectedBy(Pageable pageable) {
         log.debug("Searching database for all entities projected by Id and Name");
         Stream<ProjectedIdAndName> apiResources = executor.pokemonProjectionsFromApiEntryEndpoint();
         log.debug("Searching for app db custom entities with id above: " + customPokeBeginIndex);
@@ -65,8 +62,8 @@ class PokeExposeService {
         log.debug("Removes entities with deleted status from summary list");
         return concatResources
                 .filter(parsed -> !deletedIdList.contains(parsed.getId()))
-                .skip(offset)
-                .limit(limit)
+                .skip(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .toList();
     }
 }
