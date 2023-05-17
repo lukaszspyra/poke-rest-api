@@ -19,7 +19,7 @@ import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
  */
 @RestController
 @RequiredArgsConstructor
-class PokeReadController {
+public class PokeReadController {
 
     private static final Logger log = LoggerFactory.getLogger(PokeReadController.class);
     private final PokeReadService service;
@@ -34,7 +34,7 @@ class PokeReadController {
     }
 
     /**
-     * Find all entities as entry endpoint, paginated (default page=0, size=20)
+     * Finds all entities as entry endpoint, paginated (default page=0, size=20)
      *
      * @return collection of all entities projections transformed to CollectionModel
      */
