@@ -3,6 +3,8 @@ package spyra.lukasz.pokerestapi.delete;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
 import spyra.lukasz.pokerestapi.expose.ApiExecutor;
@@ -26,7 +28,11 @@ class PokeDeleteService {
      * Any found result is soft deleted by repository
      * @see ApiExecutor#pokemonInstanceFromApi(Long) if nothing found
      */
-    boolean deleteOne(Long id) {
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "SinglePokemonById", key = "#id"),
+            @CacheEvict(cacheNames = "ExistingPokemons", allEntries = true)
+    })
+    public boolean deleteOne(Long id) {
         log.debug("Start delete logic, search entity by id in app db");
         if (repository.existsById(id)) {
             log.debug("Resource with given id exists in app db");

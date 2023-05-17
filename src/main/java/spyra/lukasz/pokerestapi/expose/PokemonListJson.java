@@ -17,12 +17,13 @@ record PokemonListJson(int count, List<PokemonOverview> results) {
     private record PokemonOverview(String name, String url) {
     }
 
-    Stream<ProjectedIdAndName> projectionFromJson() {
+    List<ProjectedIdAndName> projectionFromJson() {
         log.debug("Mapping PokemonOverviews to ProjectedIdAndNames");
         List<ProjectedIdAndName> projected = new ArrayList<>(results.size());
         return results.stream()
                 .map(e -> new ProjectedIdAndName(parseIdFromUrl(e.url), e.name))
-                .filter(p -> p.getId() != null);
+                .filter(p -> p.getId() != null)
+                .toList();
     }
 
     private Long parseIdFromUrl(String url) {

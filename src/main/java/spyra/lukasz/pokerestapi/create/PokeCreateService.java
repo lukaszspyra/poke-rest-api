@@ -3,12 +3,13 @@ package spyra.lukasz.pokerestapi.create;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.shared.PokeAbility;
 import spyra.lukasz.pokerestapi.shared.PokeStat;
 import spyra.lukasz.pokerestapi.shared.PokeType;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
-
 
 import javax.transaction.Transactional;
 import java.util.Collection;
@@ -32,6 +33,11 @@ class PokeCreateService {
      * @return persisted poke with id set
      */
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "SinglePokemonById", key = "#result.id"),
+            @CacheEvict(cacheNames = "AppDbPokemonList", allEntries = true),
+            @CacheEvict(cacheNames = "ExistingPokemons", allEntries = true)
+    })
     public Pokemon saveOne(Pokemon poke) {
         log.debug("Start setting up all poke required fields in db");
         poke.setAbilities(persistPokeAbilities(poke.getAbilities()));

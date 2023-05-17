@@ -17,6 +17,8 @@
         <java.version>17</java.version>
         <version.lombok>1.18.24</version.lombok>
         <version.mockito>4.8.0</version.mockito>
+        <version.cache>3.0.6</version.cache>
+        <start-class>spyra.lukasz.pokerestapi.PokeRestApiApplication</start-class>
     </properties>
     <dependencies>
         <dependency>
@@ -41,11 +43,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -77,6 +74,15 @@
             <artifactId>mockito-inline</artifactId>
             <version>${version.mockito}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${version.cache}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
     </dependencies>
 

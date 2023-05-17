@@ -3,6 +3,8 @@ package spyra.lukasz.pokerestapi.expose;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import spyra.lukasz.pokerestapi.shared.Pokemon;
  */
 @RestController
 @RequiredArgsConstructor
+@PropertySource("classpath:settings.properties")
 class PokeController {
 
     private static final Logger log = LoggerFactory.getLogger(PokeController.class);
@@ -32,14 +35,14 @@ class PokeController {
     }
 
     /**
-     * Find all entities as entry endpoint
+     * Find all entities as entry endpoint, paginated (default page=0, size=20)
      *
      * @return collection of all entities projections transformed to CollectionModel
      */
     @GetMapping("/pokemon")
-    CollectionModel<EntityModel<ProjectedIdAndName>> allProjected() {
-        log.debug("Finding all pokemons projected by name and id");
-        return assembler.toCollectionModel(service.findAllProjectedBy());
+    CollectionModel<EntityModel<ProjectedIdAndName>> allProjected(Pageable pageable) {
+        log.debug("Finding all pokemon's name and id projections, paginated with page size/number: " + pageable.getPageSize() + "/" + pageable.getPageNumber());
+        return assembler.toCollectionModel(service.findAllProjectedBy(pageable), pageable);
     }
 
 }
