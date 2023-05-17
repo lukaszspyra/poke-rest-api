@@ -27,7 +27,7 @@ class PokeSearchService {
      * @param pageable to paginate results
      * @return found projections by name/paginated
      */
-    List<ProjectedIdAndName> searchByNameContaining(String name, Pageable pageable) {
+    public List<ProjectedIdAndName> searchByNameContaining(String name, Pageable pageable) {
         log.debug("Searching database for all projections, filtered by name");
         Stream<ProjectedIdAndName> apiResourcesByName = executor.pokemonProjectionsFromApiEntryEndpoint()
                 .stream()

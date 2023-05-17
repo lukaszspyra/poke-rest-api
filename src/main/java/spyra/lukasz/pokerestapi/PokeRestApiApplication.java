@@ -39,7 +39,7 @@ public class PokeRestApiApplication {
      */
     @Bean
     public Long customPokeBeginIndex() {
-        long beginIndex = 100000L;
+        long beginIndex = 900000L;
         log.debug("Declaring begin index for custom pokemons as: " + beginIndex);
         return beginIndex;
     }
