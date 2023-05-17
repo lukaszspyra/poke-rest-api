@@ -1,4 +1,4 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 record PokemonListJson(int count, List<PokemonOverview> results) {

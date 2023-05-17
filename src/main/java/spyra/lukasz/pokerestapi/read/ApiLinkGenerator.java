@@ -1,4 +1,4 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

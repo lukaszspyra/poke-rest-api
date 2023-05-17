@@ -1,11 +1,10 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
@@ -15,7 +14,6 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-@PropertySource("classpath:settings.properties")
 public class ApiExecutor {
     private static final Logger log = LoggerFactory.getLogger(ApiExecutor.class);
     private final RestOperations restTemplate;

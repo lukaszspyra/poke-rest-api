@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
-import spyra.lukasz.pokerestapi.expose.ApiExecutor;
+import spyra.lukasz.pokerestapi.read.ApiExecutor;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
 @Service

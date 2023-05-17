@@ -1,4 +1,4 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
