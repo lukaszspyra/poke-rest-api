@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-class PokeExposeService {
+class PokeReadService {
 
-    private static final Logger log = LoggerFactory.getLogger(PokeExposeService.class);
+    private static final Logger log = LoggerFactory.getLogger(PokeReadService.class);
 
     private final Long customPokeBeginIndex;
     private final PokeExposeRepository repository;

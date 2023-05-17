@@ -3,7 +3,6 @@ package spyra.lukasz.pokerestapi.read;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -19,11 +18,10 @@ import spyra.lukasz.pokerestapi.shared.Pokemon;
  */
 @RestController
 @RequiredArgsConstructor
-@PropertySource("classpath:settings.properties")
-class PokeController {
+class PokeReadController {
 
-    private static final Logger log = LoggerFactory.getLogger(PokeController.class);
-    private final PokeExposeService service;
+    private static final Logger log = LoggerFactory.getLogger(PokeReadController.class);
+    private final PokeReadService service;
     private final PokeModelAssembler assembler;
 
     @GetMapping("/pokemon/{id}")

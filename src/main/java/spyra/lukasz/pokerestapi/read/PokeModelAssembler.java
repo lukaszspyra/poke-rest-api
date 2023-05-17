@@ -26,8 +26,8 @@ public class PokeModelAssembler implements RepresentationModelAssembler<Pokemon,
     public EntityModel<Pokemon> toModel(@NonNull Pokemon entity) {
         log.debug("Assembling EntityModel of pokemon");
         return EntityModel.of(entity,
-                linkTo(methodOn(PokeController.class).one(entity.getId())).withSelfRel(),
-                linkTo(methodOn(PokeController.class).allProjected(Pageable.unpaged())).withRel("pokemon list"));
+                linkTo(methodOn(PokeReadController.class).one(entity.getId())).withSelfRel(),
+                linkTo(methodOn(PokeReadController.class).allProjected(Pageable.unpaged())).withRel("pokemon list"));
     }
 
     /**
@@ -43,10 +43,10 @@ public class PokeModelAssembler implements RepresentationModelAssembler<Pokemon,
         List<EntityModel<ProjectedIdAndName>> resourcesList = entities
                 .stream()
                 .map(projectedPoke -> EntityModel.of(projectedPoke,
-                        linkTo(methodOn(PokeController.class).one(projectedPoke.getId())).withSelfRel(),
-                        linkTo(methodOn(PokeController.class).allProjected(pageable)).withRel("pokemon list")
+                        linkTo(methodOn(PokeReadController.class).one(projectedPoke.getId())).withSelfRel(),
+                        linkTo(methodOn(PokeReadController.class).allProjected(pageable)).withRel("pokemon list")
                 ))
                 .toList();
-        return CollectionModel.of(resourcesList, linkTo(methodOn(PokeController.class).allProjected(pageable)).withSelfRel());
+        return CollectionModel.of(resourcesList, linkTo(methodOn(PokeReadController.class).allProjected(pageable)).withSelfRel());
     }
 }
