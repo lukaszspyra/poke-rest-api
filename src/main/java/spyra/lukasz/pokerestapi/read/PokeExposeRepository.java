@@ -12,6 +12,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import org.springframework.lang.NonNull;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,20 +28,4 @@ interface PokeExposeRepository extends JpaRepository<Pokemon, Long> {
 
     @Cacheable(cacheNames = "AppDbPokemonList")
     List<ProjectedIdAndName> findAllProjectedByIdIsAfter(Long id);
-}
-
-/**
- * Class based projection of Pokemon entity,
- * it holds only id and name to limit memory usage.
- *
- * @Relation sets the name of embedded node in HAL json.
- */
-@Getter
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Relation(collectionRelation = "pokemons")
-class ProjectedIdAndName extends RepresentationModel<ProjectedIdAndName> {
-    @JsonIgnore
-    private Long id;
-    private String name;
 }

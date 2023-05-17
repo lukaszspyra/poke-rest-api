@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,8 @@ class PokeReadService {
     }
 
     /**
-     *Find all pokemon projections, non-deleted, both from external api and app db - combined and paginated
+     * Find all pokemon projections, non-deleted, both from external api and app db - combined and paginated
+     *
      * @param pageable instance from client
      * @return paginated list of resources
      */

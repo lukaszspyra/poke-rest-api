@@ -3,6 +3,7 @@ package spyra.lukasz.pokerestapi.read;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
