@@ -32,7 +32,7 @@ class PokeDeleteService {
             @CacheEvict(cacheNames = "SinglePokemonById", key = "#id"),
             @CacheEvict(cacheNames = "ExistingPokemons", allEntries = true)
     })
-    boolean deleteOne(Long id) {
+    public boolean deleteOne(Long id) {
         log.debug("Start delete logic, search entity by id in app db");
         if (repository.existsById(id)) {
             log.debug("Resource with given id exists in app db");

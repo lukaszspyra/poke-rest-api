@@ -53,7 +53,7 @@ class PokeExposeService {
     @Cacheable(cacheNames = "ExistingPokemons")
     public List<ProjectedIdAndName> findAllProjectedBy(Pageable pageable) {
         log.debug("Searching database for all entities projected by Id and Name");
-        Stream<ProjectedIdAndName> apiResources = executor.pokemonProjectionsFromApiEntryEndpoint();
+        Stream<ProjectedIdAndName> apiResources = executor.pokemonProjectionsFromApiEntryEndpoint().stream();
         log.debug("Searching for app db custom entities with id above: " + customPokeBeginIndex);
         Stream<ProjectedIdAndName> ownResources = repository.findAllProjectedByIdIsAfter(customPokeBeginIndex).stream();
         log.debug("Concatenates app db results with poke api results");
