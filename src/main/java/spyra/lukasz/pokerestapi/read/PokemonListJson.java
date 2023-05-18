@@ -26,7 +26,7 @@ record PokemonListJson(int count, List<PokemonOverview> results) {
                 .toList();
     }
 
-    private Long parseIdFromUrl(String url) {
+    Long parseIdFromUrl(String url) {
         log.debug("Start parsing id from url");
         NumberFormat intInstance = NumberFormat.getIntegerInstance();
         Long parsed = null;

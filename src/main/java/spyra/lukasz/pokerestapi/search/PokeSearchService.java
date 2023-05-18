@@ -31,7 +31,7 @@ class PokeSearchService {
         log.debug("Searching database for all projections, filtered by name");
         Stream<ProjectedIdAndName> apiResourcesByName = executor.pokemonProjectionsFromApiEntryEndpoint()
                 .stream()
-                .filter(proj -> proj.getName().contains(name));
+                .filter(proj -> proj.getName().contains(name.toLowerCase()));
         log.debug("Searching by name for app db custom entities with id above: " + customPokeBeginIndex);
         Stream<ProjectedIdAndName> ownResourcesByName = repository.findAllProjectedByIdIsAfterAndNameContainingIgnoreCase(customPokeBeginIndex, name).stream();
         log.debug("Concatenates app db results with poke api results");
