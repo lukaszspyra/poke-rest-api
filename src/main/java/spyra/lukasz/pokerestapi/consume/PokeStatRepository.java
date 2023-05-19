@@ -7,6 +7,6 @@ import java.util.Optional;
 
 interface PokeStatRepository extends JpaRepository<PokeStat, Long> {
 
-    Optional<PokeStat> findFirstByNameAndValue(String name, int value);
+    Optional<PokeStat> findFirstByNameAndPoints(String name, int points);
 
 }

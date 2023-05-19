@@ -51,7 +51,7 @@ class PokeCreateService {
         log.debug("Getting persisted poke stats");
         return stats
                 .stream()
-                .map(stat -> statRepository.findFirstByNameAndValue(stat.getName(), stat.getValue()).orElseGet(() -> statRepository.save(stat)))
+                .map(stat -> statRepository.findFirstByNameAndPoints(stat.getName(), stat.getPoints()).orElseGet(() -> statRepository.save(stat)))
                 .collect(Collectors.toSet());
     }
 
