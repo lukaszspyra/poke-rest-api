@@ -23,9 +23,6 @@ class PokeStatRepositoryIntTest {
     private PokeStatRepository underTest;
 
     @MockBean
-    RestTemplateBuilder templateBuilder;
-
-    @MockBean
     RestOperations restTemplate;
 
     @BeforeEach

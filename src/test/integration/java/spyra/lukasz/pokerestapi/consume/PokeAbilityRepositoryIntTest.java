@@ -6,6 +6,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.web.client.RestOperations;
 import spyra.lukasz.pokerestapi.shared.PokeAbility;
 
 import java.util.Optional;
@@ -18,6 +20,9 @@ class PokeAbilityRepositoryIntTest {
 
     @Autowired
     PokeAbilityRepository underTest;
+
+    @MockBean
+    RestOperations restTemplate;
 
     @BeforeEach
     public void setup() {
