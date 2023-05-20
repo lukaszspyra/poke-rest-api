@@ -1,4 +1,4 @@
-package spyra.lukasz.pokerestapi.read;
+package spyra.lukasz.pokerestapi.delete;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,26 +15,22 @@ import spyra.lukasz.pokerestapi.shared.PokeStat;
 import spyra.lukasz.pokerestapi.shared.PokeType;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class PokeExposeRepositoryIntTest {
+class PokeDeleteRepositoryTest {
 
     @Autowired
-    private PokeExposeRepository underTest;
+    private PokeDeleteRepository underTest;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @MockBean
     private RestOperations restTemplate;
-
     PokeAbility ability1 = initAbility("TestAbility1", true);
     PokeAbility ability2 = initAbility("TestAbility2", false);
     PokeStat stat1 = initStat("Stat1", 1);
@@ -61,47 +57,6 @@ class PokeExposeRepositoryIntTest {
         pokemons = new Pokemon[]{entityManager.persist(pokemon1), entityManager.persist(pokemon2), entityManager.persist(pokemon3)};
     }
 
-    @Test
-    void shallFindDeletedPokemonIds() {
-        //given
-        List<Long> deletedIds = Arrays.stream(pokemons).filter(Pokemon::isDeleted).map(Pokemon::getId).toList();
-
-        //when
-        List<Long> actual = underTest.findDeletedIdList();
-
-        //then
-        assertEquals(deletedIds, actual, "Shall find deleted pokemons, bt it has not");
-    }
-
-    @ParameterizedTest
-    @MethodSource("searchIdParameters")
-    void shallFindPokemonById(Long id) {
-        //given
-
-        //when
-        Optional<Pokemon> actual = underTest.findAnyById(id);
-
-        //then
-        assertAll("shall find pokemon instance by id proper, but it has not",
-                () -> assertTrue(actual.isPresent()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getId(), actual.get().getId()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getHeight(), actual.get().getHeight()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getWeight(), actual.get().getWeight()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getImageUrl(), actual.get().getImageUrl()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getAbilities(), actual.get().getAbilities()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getStats(), actual.get().getStats()),
-                () -> assertEquals(pokemons[id.intValue() - 1].getTypes(), actual.get().getTypes()),
-                () -> assertEquals(pokemons[id.intValue() - 1].isDeleted(), actual.get().isDeleted())
-        );
-    }
-
-    private static Stream<Arguments> searchIdParameters() {
-        return Stream.of(
-                Arguments.of(1L),
-                Arguments.of(2L),
-                Arguments.of(3L)
-        );
-    }
 
     private PokeType initType(String name) {
         PokeType type = new PokeType();
@@ -121,5 +76,25 @@ class PokeExposeRepositoryIntTest {
         ability.setName(name);
         ability.setHidden(hidden);
         return ability;
+    }
+
+    @ParameterizedTest
+    @MethodSource("idParameters")
+    void softDeleteById(Long id, int expected) {
+        //given
+
+        //when
+        int recordsDeleted = underTest.softDeleteById(id);
+
+        //then
+        assertEquals(expected, recordsDeleted, "Shall modify proper number of records, but it has not");
+    }
+
+    private static Stream<Arguments> idParameters() {
+        return Stream.of(
+                Arguments.of(1L, 1),
+                Arguments.of(2L, 0),
+                Arguments.of(3L, 1)
+        );
     }
 }
