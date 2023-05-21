@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import spyra.lukasz.pokerestapi.expose.PokeModelAssembler;
+import spyra.lukasz.pokerestapi.read.PokeModelAssembler;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
 import javax.validation.Valid;

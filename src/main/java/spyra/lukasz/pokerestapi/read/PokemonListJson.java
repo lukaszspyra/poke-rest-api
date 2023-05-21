@@ -1,14 +1,14 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 record PokemonListJson(int count, List<PokemonOverview> results) {
@@ -26,7 +26,7 @@ record PokemonListJson(int count, List<PokemonOverview> results) {
                 .toList();
     }
 
-    private Long parseIdFromUrl(String url) {
+    Long parseIdFromUrl(String url) {
         log.debug("Start parsing id from url");
         NumberFormat intInstance = NumberFormat.getIntegerInstance();
         Long parsed = null;

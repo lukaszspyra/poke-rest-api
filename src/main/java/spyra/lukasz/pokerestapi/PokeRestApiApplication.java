@@ -8,7 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestOperations;
-import spyra.lukasz.pokerestapi.expose.exceptions.RestTemplateResponseErrorHandler;
+import spyra.lukasz.pokerestapi.read.exceptions.RestTemplateResponseErrorHandler;
 
 @EnableCaching
 @SpringBootApplication
@@ -39,7 +39,7 @@ public class PokeRestApiApplication {
      */
     @Bean
     public Long customPokeBeginIndex() {
-        long beginIndex = 100000L;
+        long beginIndex = 900000L;
         log.debug("Declaring begin index for custom pokemons as: " + beginIndex);
         return beginIndex;
     }

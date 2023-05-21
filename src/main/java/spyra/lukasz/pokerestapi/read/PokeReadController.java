@@ -1,9 +1,8 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -13,17 +12,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 /**
  * Returns resources with hypermedia according to HAL standards (embedded collections of links)
  */
 @RestController
 @RequiredArgsConstructor
-@PropertySource("classpath:settings.properties")
-class PokeController {
+public class PokeReadController {
 
-    private static final Logger log = LoggerFactory.getLogger(PokeController.class);
-    private final PokeExposeService service;
+    private static final Logger log = LoggerFactory.getLogger(PokeReadController.class);
+    private final PokeReadService service;
     private final PokeModelAssembler assembler;
 
     @GetMapping("/pokemon/{id}")
@@ -35,7 +34,7 @@ class PokeController {
     }
 
     /**
-     * Find all entities as entry endpoint, paginated (default page=0, size=20)
+     * Finds all entities as entry endpoint, paginated (default page=0, size=20)
      *
      * @return collection of all entities projections transformed to CollectionModel
      */

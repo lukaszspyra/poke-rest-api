@@ -1,14 +1,14 @@
-package spyra.lukasz.pokerestapi.expose;
+package spyra.lukasz.pokerestapi.read;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spyra.lukasz.pokerestapi.consume.DbPersistService;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.ProjectedIdAndName;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +16,9 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-class PokeExposeService {
+class PokeReadService {
 
-    private static final Logger log = LoggerFactory.getLogger(PokeExposeService.class);
+    private static final Logger log = LoggerFactory.getLogger(PokeReadService.class);
 
     private final Long customPokeBeginIndex;
     private final PokeExposeRepository repository;
@@ -46,7 +46,8 @@ class PokeExposeService {
     }
 
     /**
-     *Find all pokemon projections, non-deleted, both from external api and app db - combined and paginated
+     * Find all pokemon projections, non-deleted, both from external api and app db - combined and paginated
+     *
      * @param pageable instance from client
      * @return paginated list of resources
      */
