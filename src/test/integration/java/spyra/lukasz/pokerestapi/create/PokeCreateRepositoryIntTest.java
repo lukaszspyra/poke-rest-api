@@ -1,10 +1,7 @@
-package spyra.lukasz.pokerestapi.delete;
+package spyra.lukasz.pokerestapi.create;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -16,15 +13,14 @@ import spyra.lukasz.pokerestapi.shared.PokeType;
 import spyra.lukasz.pokerestapi.shared.Pokemon;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class PokeDeleteRepositoryTest {
+class PokeCreateRepositoryIntTest {
 
     @Autowired
-    private PokeDeleteRepository underTest;
+    private PokeCreateRepository underTest;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -37,8 +33,6 @@ class PokeDeleteRepositoryTest {
     PokeStat stat2 = initStat("Stat2", 2);
     PokeType type1 = initType("Type1");
     PokeType type2 = initType("Type2");
-
-    Pokemon[] pokemons;
 
     @BeforeEach
     void setup() {
@@ -54,7 +48,9 @@ class PokeDeleteRepositoryTest {
                 Set.of(entityManager.persist(ability1), entityManager.persist(ability2)),
                 Set.of(entityManager.persist(stat1), entityManager.persist(stat2)),
                 Set.of(entityManager.persist(type1), entityManager.persist(type2)), false);
-        pokemons = new Pokemon[]{entityManager.persist(pokemon1), entityManager.persist(pokemon2), entityManager.persist(pokemon3)};
+        entityManager.persist(pokemon1);
+        entityManager.persist(pokemon2);
+        entityManager.persist(pokemon3);
     }
 
 
@@ -78,23 +74,26 @@ class PokeDeleteRepositoryTest {
         return ability;
     }
 
-    @ParameterizedTest
-    @MethodSource("idParameters")
-    void softDeleteById(Long id, int expected) {
+    @Test
+    void shallFindMaxIdForNonEmptyDatabase() {
         //given
 
         //when
-        int recordsDeleted = underTest.softDeleteById(id);
+        Long actual = underTest.getMaxId();
 
         //then
-        assertEquals(expected, recordsDeleted, "Shall modify proper number of records, but it has not");
+        assertEquals(3L, actual);
     }
 
-    private static Stream<Arguments> idParameters() {
-        return Stream.of(
-                Arguments.of(1L, 1),
-                Arguments.of(2L, 0),
-                Arguments.of(3L, 1)
-        );
+    @Test
+    void shallFindIdZeroForEmptyDatabase() {
+        //given
+        entityManager.clear();
+
+        //when
+        Long actual = underTest.getMaxId();
+
+        //then
+        assertEquals(0L, actual);
     }
 }
