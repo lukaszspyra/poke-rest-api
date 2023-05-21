@@ -1,32 +1,36 @@
-package spyra.lukasz.pokerestapi.create;
+package spyra.lukasz.pokerestapi.search;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.client.RestOperations;
-import spyra.lukasz.pokerestapi.shared.PokeAbility;
-import spyra.lukasz.pokerestapi.shared.PokeStat;
-import spyra.lukasz.pokerestapi.shared.PokeType;
-import spyra.lukasz.pokerestapi.shared.Pokemon;
+import spyra.lukasz.pokerestapi.shared.*;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class PokeCreateRepositoryIntTest {
-
-    @Autowired
-    private PokeCreateRepository underTest;
+class PokeSearchRepositoryIntTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @MockBean
     private RestOperations restTemplate;
+
+    @Autowired
+    private PokeSearchRepository underTest;
+
     PokeAbility ability1 = initAbility("TestAbility1", true);
     PokeAbility ability2 = initAbility("TestAbility2", false);
     PokeStat stat1 = initStat("Stat1", 1);
@@ -36,7 +40,7 @@ class PokeCreateRepositoryIntTest {
 
     @BeforeEach
     void setup() {
-        Pokemon pokemon1 = new Pokemon(1L, "Pokemon1", 1, 11, "Image1",
+        Pokemon pokemon1 = new Pokemon(1L, "Pokemon1mon2Pokemon", 1, 11, "Image1",
                 Set.of(entityManager.persist(ability1)),
                 Set.of(entityManager.persist(stat1)),
                 Set.of(entityManager.persist(type1)), false);
@@ -44,15 +48,14 @@ class PokeCreateRepositoryIntTest {
                 Set.of(entityManager.persist(ability2)),
                 Set.of(entityManager.persist(stat2)),
                 Set.of(entityManager.persist(type2)), true);
-        Pokemon pokemon3 = new Pokemon(3L, "Pokemon3", 3, 33, "Image3",
+        Pokemon pokemon3 = new Pokemon(3L, "Pokemon2Pokemon3", 3, 33, "Image3",
                 Set.of(entityManager.persist(ability1), entityManager.persist(ability2)),
                 Set.of(entityManager.persist(stat1), entityManager.persist(stat2)),
-                Set.of(entityManager.persist(type1), entityManager.persist(type2)), false);
+                Set.of(entityManager.persist(type1), entityManager.persist(type2)), true);
         entityManager.persist(pokemon1);
         entityManager.persist(pokemon2);
         entityManager.persist(pokemon3);
     }
-
 
     private PokeType initType(String name) {
         PokeType type = new PokeType();
@@ -74,26 +77,43 @@ class PokeCreateRepositoryIntTest {
         return ability;
     }
 
+
     @Test
-    void shallFindMaxIdForNonEmptyDatabase() {
+    void shallFindDeletedPokemonsIdList() {
         //given
 
         //when
-        Long actual = underTest.getMaxId();
+        List<Long> actual = underTest.findDeletedIdList();
 
         //then
-        assertEquals(3L, actual, "Shall find max id, when database not empty, but it has not");
+        assertEquals(List.of(2L, 3L), actual, "Shall find deleted pokemon's ids, but it has not");
     }
 
-    @Test
-    void shallFindIdZeroForEmptyDatabase() {
+    @ParameterizedTest
+    @MethodSource("searchParameters")
+    void findAllProjectedByIdIsAfterAndNameContainingIgnoreCase(Long fromId, List<ProjectedIdAndName> expected) {
         //given
-        entityManager.clear();
+        String nameToSearch = "mon2";
 
         //when
-        Long actual = underTest.getMaxId();
+        List<ProjectedIdAndName> actual = underTest.findAllProjectedByIdIsAfterAndNameContainingIgnoreCase(fromId, nameToSearch);
 
         //then
-        assertEquals(0L, actual, "Shall find zero, when database empty, but it has not");
+        assertAll("test",
+                () -> assertEquals(expected.size(), actual.size(), String.format("Shall find pokemon's projections with id higher than %d and containing search phrase, but it has not", fromId)),
+                () -> assertEquals(expected, actual)
+        );
+    }
+
+    private static Stream<Arguments> searchParameters() {
+        ProjectedIdAndName pr1 = new ProjectedIdAndName(1L, "Pokemon1mon2Pokemon");
+        ProjectedIdAndName pr2 = new ProjectedIdAndName(2L, "Pokemon2");
+        ProjectedIdAndName pr3 = new ProjectedIdAndName(3L, "Pokemon2Pokemon3");
+
+        return Stream.of(
+                Arguments.of(0L, List.of(pr1, pr2, pr3)),
+                Arguments.of(1L, List.of(pr2, pr3)),
+                Arguments.of(2L, List.of(pr3))
+        );
     }
 }
